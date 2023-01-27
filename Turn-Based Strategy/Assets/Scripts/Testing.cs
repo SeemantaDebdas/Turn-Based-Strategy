@@ -1,8 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
+    [SerializeField] MoveAction action;
 
+    private void Start()
+    {
+        //systemVisual.ShowGridPositionList(action.GetValidActionGridPositionList());     
+    }
 }
