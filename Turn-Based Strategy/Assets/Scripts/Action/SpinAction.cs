@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpinAction : BaseAction
 {
     float totalSpinAmount = 0;
+    string actionName = "Spin";
 
     void Update()
     {
@@ -25,10 +26,23 @@ public class SpinAction : BaseAction
         }
     }
 
-    public void Spin(Action onActionComplete)
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         this.onActionComplete = onActionComplete;
         totalSpinAmount = 0;
         isActive = true;
+    }
+
+    public override string GetActionName() => actionName;
+
+    public override List<GridPosition> GetValidActionGridPositionList()
+    {
+        GridPosition unitGridPosition = unit.GetGridPosition();
+        return new List<GridPosition> { unitGridPosition };
+    }
+
+    public override int GetActionPointsCost()
+    {
+        return 2;
     }
 }

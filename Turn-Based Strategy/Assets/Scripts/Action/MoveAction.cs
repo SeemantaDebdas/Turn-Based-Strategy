@@ -10,6 +10,7 @@ public class MoveAction : BaseAction
     [SerializeField] float rotateSpeed = 50f;
 
     Vector3 targetPosition = Vector3.zero;
+    string actionName = "Move";
 
     #region Animation Variables
 
@@ -48,22 +49,14 @@ public class MoveAction : BaseAction
             onActionComplete();
         }
     }
-    public void Move(GridPosition gridPosition, Action onActionComplete)
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         isActive = true;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         this.onActionComplete = onActionComplete;
     }
-    
-    public bool IsValidGridPosition(GridPosition gridPosition)
-    {
-        List<GridPosition> validGridPositions = GetValidActionGridPositionList();
 
-        Debug.Log(validGridPositions.Contains(gridPosition));
-        return validGridPositions.Contains(gridPosition);
-    }
-
-    public List<GridPosition> GetValidActionGridPositionList()
+    public override List<GridPosition> GetValidActionGridPositionList()
     {
         List<GridPosition> validGridPositionList = new();
         GridPosition unitGridPosition = unit.GetGridPosition();
@@ -102,5 +95,6 @@ public class MoveAction : BaseAction
 
         anim.CrossFadeInFixedTime(animHash, fixedTimeDuration);
     }
-    
+
+    public override string GetActionName() => actionName;
 }
