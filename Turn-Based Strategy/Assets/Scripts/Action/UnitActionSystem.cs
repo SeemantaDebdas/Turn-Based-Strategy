@@ -39,6 +39,8 @@ public class UnitActionSystem : MonoBehaviour
     {
         if(isBusy) return;
 
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (TryUnitSelection()) return;
@@ -68,6 +70,7 @@ public class UnitActionSystem : MonoBehaviour
             if (hit.transform.TryGetComponent(out Unit unit))
             {
                 if (unit == selectedUnit) return false;
+                if (unit.IsEnemy()) return false;
 
                 SetSelectedUnit(unit);
                 return true;
@@ -80,6 +83,7 @@ public class UnitActionSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
             if (!selectedAction.IsValidGridPosition(mouseGridPosition)) return;
             if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction)) return;
 

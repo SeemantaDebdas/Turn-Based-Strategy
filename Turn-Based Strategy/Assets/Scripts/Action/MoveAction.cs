@@ -9,20 +9,12 @@ public class MoveAction : BaseAction
     [SerializeField] float movementSpeed = 2.87f;
     [SerializeField] float rotateSpeed = 50f;
 
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
+    
     Vector3 targetPosition = Vector3.zero;
     string actionName = "Move";
-
-    #region Animation Variables
-
-    const string animAimIdle = "Aim Idle";
-    const string animRun = "Run";
-
-    int AimIdleHash = Animator.StringToHash(animAimIdle);
-    int RunHash = Animator.StringToHash(animRun);
-
-    float fixedTimeDuration = 0.1f;
-
-    #endregion
+    
 
     protected override void Awake()
     {
@@ -40,20 +32,19 @@ public class MoveAction : BaseAction
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
             transform.position += movementSpeed * Time.deltaTime * direction;
-            PlayAnimation(RunHash, animRun);
         }
         else
         {
-            PlayAnimation(AimIdleHash, animAimIdle);
-            isActive = false;
-            onActionComplete();
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            ActionComplete();
         }
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        isActive = true;
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        this.onActionComplete = onActionComplete;
+
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
+        ActionStart(onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -88,13 +79,17 @@ public class MoveAction : BaseAction
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     }
-    void PlayAnimation(int animHash, string animString)
-    {
-        AnimatorClipInfo[] clips = anim.GetCurrentAnimatorClipInfo(0);
-        if (anim.IsInTransition(0) || clips[0].clip.name == animString) return;
-
-        anim.CrossFadeInFixedTime(animHash, fixedTimeDuration);
-    }
 
     public override string GetActionName() => actionName;
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        int targetCountAtGridPosition = unit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = targetCountAtGridPosition * 10,
+        };
+    }
 }
