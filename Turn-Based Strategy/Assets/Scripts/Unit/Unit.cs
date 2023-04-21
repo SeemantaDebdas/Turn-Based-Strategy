@@ -14,9 +14,6 @@ public class Unit : MonoBehaviour
     GridPosition gridPosition;
 
     BaseAction[] baseActionArray;
-    MoveAction moveAction;
-    SpinAction spinAction;
-    ShootAction shootAction;
 
     int actionPoints = ACTION_POINTS_MAX;
 
@@ -24,10 +21,6 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
-        shootAction = GetComponent<ShootAction>();
-
         baseActionArray = GetComponents<BaseAction>();
         healthSystem = GetComponent<HealthSystem>();
     }
@@ -58,11 +51,15 @@ public class Unit : MonoBehaviour
     
     public bool IsEnemy() => isEnemy;
 
-    public MoveAction GetMoveAction() => moveAction;
-
-    public SpinAction GetSpinAction() => spinAction;
-
-    public ShootAction GetShootAction() => shootAction; 
+    public T GetAction<T>() where T:BaseAction
+    {
+        foreach(BaseAction baseAction in baseActionArray)
+        {
+            if (baseAction is T t)
+                return t;
+        }
+        return null;
+    }
 
     public Vector3 GetWorldPosition() => transform.position;
 

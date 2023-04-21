@@ -4,14 +4,14 @@ using UnityEngine;
 public class GridDebugObject : MonoBehaviour
 {
     [SerializeField] TextMeshPro debugText;
-    GridObject gridObject;
+    object gridObject;
 
-    public void SetGridObject(GridObject gridObject)
+    public virtual void SetGridObject(object gridObject)
     {
         this.gridObject = gridObject;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         debugText.text = gridObject.ToString();
     }

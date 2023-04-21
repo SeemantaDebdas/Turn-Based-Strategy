@@ -11,20 +11,22 @@ public class MoveAction : BaseAction
 
     public event EventHandler OnStartMoving;
     public event EventHandler OnStopMoving;
-    
-    Vector3 targetPosition = Vector3.zero;
+
+    List<Vector3> targetPositionList;
+    int currentPositionIdx = 0;
     string actionName = "Move";
     
 
     protected override void Awake()
     {
         base.Awake();
-        targetPosition = transform.position;
     }
 
     private void Update()
     {
         if (!isActive) return;
+
+        Vector3 targetPosition = targetPositionList[currentPositionIdx];
 
         Vector3 direction = (targetPosition - transform.position).normalized;
         RotateTowardsDirection(direction);
@@ -35,13 +37,25 @@ public class MoveAction : BaseAction
         }
         else
         {
-            OnStopMoving?.Invoke(this, EventArgs.Empty);
-            ActionComplete();
+            currentPositionIdx++;
+            if(currentPositionIdx >= targetPositionList.Count)
+            {
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
+                ActionComplete();
+            }
         }
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        currentPositionIdx = 0;
+        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPosition(), gridPosition, out int pathLength);
+
+        targetPositionList = new();
+
+        foreach(GridPosition pathGridPosition in pathGridPositionList)
+        {
+            targetPositionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+        }
 
         OnStartMoving?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
@@ -68,6 +82,16 @@ public class MoveAction : BaseAction
                 if (LevelGrid.Instance.HasUnitOnGridPosition(testGridPosition))
                     continue;
 
+                if (!Pathfinding.Instance.IsWalkable(testGridPosition))
+                    continue;
+
+                if (!Pathfinding.Instance.HasPath(unitGridPosition, testGridPosition))
+                    continue;
+
+                int pathfindingDistanceMulitplier = 10;
+                if (Pathfinding.Instance.GetPathLength(unitGridPosition, testGridPosition) > maxMoveDistance * pathfindingDistanceMulitplier)
+                    continue;
+
                 validGridPositionList.Add(testGridPosition);
             }
         }
@@ -84,7 +108,7 @@ public class MoveAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        int targetCountAtGridPosition = unit.GetShootAction().GetTargetCountAtPosition(gridPosition);
+        int targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
 
         return new EnemyAIAction
         {

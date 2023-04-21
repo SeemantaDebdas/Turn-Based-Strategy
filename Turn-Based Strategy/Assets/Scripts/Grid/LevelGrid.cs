@@ -5,7 +5,11 @@ using UnityEngine;
 public class LevelGrid : MonoBehaviour
 {
     [SerializeField] Transform gridDebugObjectPrefab;
-    GridSystem gridSystem;
+    [SerializeField] int width = 10;
+    [SerializeField] int height = 10;
+    [SerializeField] int cellSize = 2;
+
+    GridSystem<GridObject> gridSystem;
 
     public static LevelGrid Instance { get; private set; }
 
@@ -21,9 +25,16 @@ public class LevelGrid : MonoBehaviour
         }
         Instance = this;
 
-        gridSystem = new GridSystem(10, 10, 2);
-        gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
+        gridSystem = new GridSystem<GridObject>(width, height, cellSize,
+                                                (GridSystem<GridObject> g, GridPosition p) => new GridObject(g, p));
+        ///gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
+
+    private void Start()
+    {
+        Pathfinding.Instance.Setup(width, height, cellSize);
+    }
+
     public int GetHeight() => gridSystem.GetHeight();
 
     public int GetWidth() => gridSystem.GetWidth();

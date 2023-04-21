@@ -15,7 +15,9 @@ public class ShootAction : BaseAction
     [SerializeField] int maxShootRange = 7;
     [SerializeField] float rotateSpeed = 360f;
     [SerializeField] int damagePoints = 40;
+    [SerializeField] LayerMask obstaclesLayerMask;
 
+    public static event EventHandler<Unit> OnAnyShoot;
     public event EventHandler<Unit> OnShoot;
 
     string actionName = "Shoot";
@@ -46,7 +48,6 @@ public class ShootAction : BaseAction
                 if (canShoot)
                 {
                     Shoot();
-                    OnShoot?.Invoke(this, targetUnit);
                     canShoot = false;
                 }
                 break;
@@ -62,6 +63,9 @@ public class ShootAction : BaseAction
 
     void Shoot()
     {
+        OnShoot?.Invoke(this, targetUnit);
+        OnAnyShoot?.Invoke(this, targetUnit);
+
         targetUnit.Damage(damagePoints);
     }
 
@@ -124,6 +128,15 @@ public class ShootAction : BaseAction
                 float taxiCabDistance = Mathf.Abs(x) + Mathf.Abs(z);
                 if (taxiCabDistance > maxShootRange)
                     continue;
+
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                float unitShoulderHeight = 1.7f;
+                Vector3 shootDirection = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+
+                if(Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight, shootDirection,
+                                   Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                                   obstaclesLayerMask))
+                { continue;}
 
                 validGridPositionList.Add(testGridPosition);
             }
