@@ -11,7 +11,8 @@ public class GridSystemVisual : MonoBehaviour
         White,
         Blue, 
         Red,
-        RedSoft
+        RedSoft,
+        Green,
     }
 
     [Serializable]
@@ -127,9 +128,16 @@ public class GridSystemVisual : MonoBehaviour
             case SpinAction:
                 gridVisualType = GridVisualType.Blue;
                 break;
+            case GrenadeAction:
+                gridVisualType = GridVisualType.Green;
+                break;
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
                 ShowGridPositionRange(selectedUnit.GetGridPosition(), shootAction.GetShootRange(), GridVisualType.RedSoft); 
+                break;
+            case SwordAction swordAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), swordAction.GetSwordRange(), GridVisualType.RedSoft);
                 break;
         }
 
@@ -164,6 +172,27 @@ public class GridSystemVisual : MonoBehaviour
 
                 float taxiCabDistance = Mathf.Abs(x) + Mathf.Abs(z);
                 if (taxiCabDistance > range)
+                    continue;
+
+                validGridPositionList.Add(testGridPosition);
+            }
+        }
+
+        ShowGridPositionList(validGridPositionList, gridVisualType);
+    }
+
+    public void ShowGridPositionRangeSquare(GridPosition gridPosition, int range, GridVisualType gridVisualType)
+    {
+        List<GridPosition> validGridPositionList = new();
+
+        for (int x = -range; x <= range; x++)
+        {
+            for (int z = -range; z <= range; z++)
+            {
+                GridPosition offsetGridPosition = new(x, z);
+                GridPosition testGridPosition = gridPosition + offsetGridPosition;
+
+                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
                     continue;
 
                 validGridPositionList.Add(testGridPosition);

@@ -8,12 +8,14 @@ public class UnitAnimator : MonoBehaviour
     [SerializeField] Animator anim;
     [SerializeField] Transform bulletProjectileTransform;
     [SerializeField] Transform shootPointTransform;
+    [SerializeField] GameObject rifle, sword;
 
     #region Animation Variables
 
     const string animAimIdle = "Aim Idle";
     const string animRun = "Run";
     const string animFiring = "Firing";
+    const string swordSlash = "Sword Slash";
 
     readonly float fixedTimeDuration = 0.1f;
 
@@ -28,6 +30,25 @@ public class UnitAnimator : MonoBehaviour
 
         if (TryGetComponent(out ShootAction shootAction))
             shootAction.OnShoot += ShootAction_OnShoot;
+
+        if (TryGetComponent(out SwordAction swordAction))
+        {
+            swordAction.OnSwordActionStarted += SwordAction_OnSwordActionStarted;
+            swordAction.OnSwordActionCompleted += SwordAction_OnSwordActionCompleted;
+        }
+
+        EquipRifle();
+    }
+
+
+    private void SwordAction_OnSwordActionStarted()
+    {
+        EquipSword();
+        PlayAnimation(swordSlash);
+    }
+    private void SwordAction_OnSwordActionCompleted()
+    {
+        EquipRifle();
     }
 
     private void Update()
@@ -37,12 +58,14 @@ public class UnitAnimator : MonoBehaviour
         //if firing animation is 90% complete
 
         AnimatorClipInfo[] clips = anim.GetCurrentAnimatorClipInfo(0);
-        if (clips[0].clip.name != animFiring) return;
-        
-        if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
+        if (clips[0].clip.name == animFiring || clips[0].clip.name == swordSlash)
         {
-            PlayAnimation(animAimIdle);
+            if(anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
+            {
+                PlayAnimation(animAimIdle);
+            }
         }
+        
     }
 
 
@@ -79,5 +102,17 @@ public class UnitAnimator : MonoBehaviour
         Vector3 targetPosition = targetUnit.transform.position;
         targetPosition.y = shootPointTransform.position.y;
         bullet.Setup(targetPosition);
+    }
+
+    void EquipSword()
+    {
+        sword.SetActive(true);
+        rifle.SetActive(false);
+    }
+
+    void EquipRifle()
+    {
+        rifle.SetActive(true);
+        sword.SetActive(false);
     }
 }
