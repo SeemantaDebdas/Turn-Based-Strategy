@@ -731,6 +731,7 @@ GameObject:
   - component: {fileID: -2185422747154189436}
   - component: {fileID: -4672407917761592099}
   - component: {fileID: 6904600148987128000}
+  - component: {fileID: 4450095297606704466}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -913,6 +914,19 @@ MonoBehaviour:
   maxSwordRange: 1
   damageAmount: 100
   rotateSpeed: 360
+--- !u!114 &4450095297606704466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684692781428397600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9456f5976b91d9545825b97f4cca4ae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInteractRange: 1
 --- !u!1 &9089434147061776169
 GameObject:
   m_ObjectHideFlags: 0

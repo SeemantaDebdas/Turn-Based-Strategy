@@ -131,6 +131,9 @@ public class GridSystemVisual : MonoBehaviour
             case GrenadeAction:
                 gridVisualType = GridVisualType.Green;
                 break;
+            case InteractAction:
+                gridVisualType = GridVisualType.Blue;
+                break;
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;
                 ShowGridPositionRange(selectedUnit.GetGridPosition(), shootAction.GetShootRange(), GridVisualType.RedSoft); 
