@@ -70,7 +70,7 @@ public class MoveAction : BaseAction
         {
             for(int z = -maxMoveDistance; z <= maxMoveDistance; z++)
             {
-                GridPosition offsetGridPosition = new(x, z);
+                GridPosition offsetGridPosition = new(x, z, 0);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (testGridPosition == unitGridPosition)

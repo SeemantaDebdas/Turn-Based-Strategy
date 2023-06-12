@@ -55,7 +55,7 @@ public class GridSystemVisual : MonoBehaviour
         {
             for(int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
             {
-                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z));
+                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z, 0));
                 Transform gridSystemVisualSingleTransform = Instantiate(gridSystemVisualSingle, worldPosition, Quaternion.identity);
                 gridSystemVisualSingleTransform.SetParent(gridSystemVisualParentTransform);
                 gridSystemVisualSingleArray[x, z] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
@@ -167,7 +167,7 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = -range; z <= range; z++)
             {
-                GridPosition offsetGridPosition = new(x, z);
+                GridPosition offsetGridPosition = new(x, z, 0);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
@@ -192,7 +192,7 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = -range; z <= range; z++)
             {
-                GridPosition offsetGridPosition = new(x, z);
+                GridPosition offsetGridPosition = new(x, z, 0);
                 GridPosition testGridPosition = gridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))

@@ -16,16 +16,16 @@ public class Testing : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             pathfindingGridPosition = new();
-            GridPosition startGridPosition = new(0, 0);
+            GridPosition startGridPosition = new(0, 0, 0);
             GridPosition endGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             pathfindingGridPosition = Pathfinding.Instance.FindPath(startGridPosition, endGridPosition, out int pathLength);
 
-            for(int i = 0; i<pathfindingGridPosition.Count; i++)
+            for (int i = 0; i < pathfindingGridPosition.Count; i++)
             {
                 Debug.Log(pathfindingGridPosition[i].ToString());
             }
 
-            for(int i=0;i<pathfindingGridPosition.Count; i++)
+            for (int i = 0; i < pathfindingGridPosition.Count; i++)
             {
                 lineRenderer.positionCount = pathfindingGridPosition.Count;
                 lineRenderer.SetPosition(i, LevelGrid.Instance.GetWorldPosition(pathfindingGridPosition[i]));

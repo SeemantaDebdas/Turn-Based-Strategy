@@ -111,7 +111,7 @@ public class ShootAction : BaseAction
         {
             for (int z = -maxShootRange; z <= maxShootRange; z++)
             {
-                GridPosition offsetGridPosition = new(x, z);
+                GridPosition offsetGridPosition = new(x, z, 0);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
