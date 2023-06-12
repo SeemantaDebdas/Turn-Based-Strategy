@@ -1056,7 +1056,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.30574343, y: -0.24225709, z: 0.080752365, w: 0.91723037}
+  m_LocalRotation: {x: 0.30574346, y: -0.24225712, z: 0.08075237, w: 0.91723037}
   m_LocalPosition: {x: 7.4179015, y: 7.5, z: -3.2658114}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1270,7 +1270,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1894,7 +1894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &621900781
 Transform:
   m_ObjectHideFlags: 0
@@ -2537,7 +2537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1009417038
 Transform:
   m_ObjectHideFlags: 0
@@ -2769,7 +2769,7 @@ Transform:
   m_GameObject: {fileID: 1138663799}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 61.131077, y: 61.131077, z: 61.131077}
+  m_LocalScale: {x: 10, y: 1, z: 7.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 114862406}
@@ -2817,7 +2817,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a3cd22eceea5e8548b10cdb5d9b49a25, type: 2}
+  - {fileID: 2100000, guid: 96db84328bec40e438d8486c93711fc2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3345,7 +3345,7 @@ PrefabInstance:
     - target: {fileID: 2212474265184440964, guid: 03cf3c7a516468c478716b553f07ef93,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2212474265184440964, guid: 03cf3c7a516468c478716b553f07ef93,
         type: 3}
@@ -3355,7 +3355,7 @@ PrefabInstance:
     - target: {fileID: 2212474265184440964, guid: 03cf3c7a516468c478716b553f07ef93,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16
+      value: 16.55
       objectReference: {fileID: 0}
     - target: {fileID: 2212474265184440964, guid: 03cf3c7a516468c478716b553f07ef93,
         type: 3}
@@ -3580,7 +3580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1401316575
 Transform:
   m_ObjectHideFlags: 0
@@ -4294,7 +4294,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746873789}
-  m_LocalRotation: {x: 0.30574343, y: -0.24225709, z: 0.080752365, w: 0.91723037}
+  m_LocalRotation: {x: 0.30574346, y: -0.24225712, z: 0.08075237, w: 0.91723037}
   m_LocalPosition: {x: 7.4179015, y: 7.5, z: -3.2658114}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6151,7 +6151,7 @@ PrefabInstance:
     - target: {fileID: 8684692781428397631, guid: 6fbcb5e045da70a469fd6edbb84aa453,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8684692781428397631, guid: 6fbcb5e045da70a469fd6edbb84aa453,
         type: 3}
@@ -6161,7 +6161,7 @@ PrefabInstance:
     - target: {fileID: 8684692781428397631, guid: 6fbcb5e045da70a469fd6edbb84aa453,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8684692781428397631, guid: 6fbcb5e045da70a469fd6edbb84aa453,
         type: 3}
@@ -7234,6 +7234,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DestructibleCrate
       objectReference: {fileID: 0}
+    - target: {fileID: 3025523759296697339, guid: c2990e5086fc3fb44bbb1c6f50950541,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6652002402826918390, guid: c2990e5086fc3fb44bbb1c6f50950541,
         type: 3}
       propertyPath: m_RootOrder
@@ -7399,6 +7404,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: InteractableDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3114067948380011951, guid: ae711b2f08441df458019a5d107f755f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7307398489803571427, guid: ae711b2f08441df458019a5d107f755f,
         type: 3}

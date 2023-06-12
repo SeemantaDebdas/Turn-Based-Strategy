@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
 public class GridSystemVisual : MonoBehaviour
 {
@@ -67,6 +66,14 @@ public class GridSystemVisual : MonoBehaviour
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
 
         UpdateGridVisual();
+
+        //for(int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
+        //{
+        //    for(int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
+        //    {
+        //        gridSystemVisualSingleArray[x, z].Show(GetGridVisualTypeMaterial(GridVisualType.White));
+        //    }
+        //}
     }
 
 

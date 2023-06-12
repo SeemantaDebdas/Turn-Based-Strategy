@@ -9,7 +9,7 @@ public class LevelGrid : MonoBehaviour
     [SerializeField] int height = 10;
     [SerializeField] int cellSize = 2;
 
-    GridSystem<GridObject> gridSystem;
+    GridSystemHex<GridObject> gridSystem;
 
     public static LevelGrid Instance { get; private set; }
 
@@ -25,8 +25,8 @@ public class LevelGrid : MonoBehaviour
         }
         Instance = this;
 
-        gridSystem = new GridSystem<GridObject>(width, height, cellSize,
-                                                (GridSystem<GridObject> g, GridPosition p) => new GridObject(g, p));
+        gridSystem = new GridSystemHex<GridObject>(width, height, cellSize,
+                                                (GridSystemHex<GridObject> g, GridPosition p) => new GridObject(g, p));
         ///gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
 

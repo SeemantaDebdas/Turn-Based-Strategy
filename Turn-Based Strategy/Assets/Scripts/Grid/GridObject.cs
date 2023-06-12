@@ -5,12 +5,12 @@ using UnityEngine;
 public class GridObject
 {
     GridPosition gridPosition;
-    GridSystem<GridObject> gridSystem;
+    GridSystemHex<GridObject> gridSystem;
     List<Unit> unitList;
 
     IInteractable interactable;
 
-    public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)
+    public GridObject(GridSystemHex<GridObject> gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
         this.gridPosition = gridPosition;
