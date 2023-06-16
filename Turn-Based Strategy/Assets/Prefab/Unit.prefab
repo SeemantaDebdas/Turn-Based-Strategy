@@ -732,6 +732,7 @@ GameObject:
   - component: {fileID: -4672407917761592099}
   - component: {fileID: 6904600148987128000}
   - component: {fileID: 4450095297606704466}
+  - component: {fileID: 1854735998061556792}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -836,7 +837,7 @@ MonoBehaviour:
   damagePoints: 40
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 320
 --- !u!114 &-7245977929700742280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -927,6 +928,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractRange: 1
+--- !u!114 &1854735998061556792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8684692781428397600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0383b3270d10f274faaba1a75a317fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dynamicFloorPosition: 1
+  ignoreRendererList:
+  - {fileID: 8062155479541747913}
 --- !u!1 &9089434147061776169
 GameObject:
   m_ObjectHideFlags: 0

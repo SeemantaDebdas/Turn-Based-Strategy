@@ -8,11 +8,19 @@ public class CameraController : MonoBehaviour
     [SerializeField] float zoomSpeed = 5f;
 
     const float MIN_FOLLOW_Y_OFFSET = 1f;
-    const float MAX_FOLLOW_Y_OFFSET = 7.5f;
+    const float MAX_FOLLOW_Y_OFFSET = 15f;
+
+    public static CameraController Instance { get; private set; }
 
     [SerializeField] CinemachineVirtualCamera virtualCamera;
     CinemachineTransposer transposer;
     Vector3 followOffset;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         transposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
@@ -62,4 +70,6 @@ public class CameraController : MonoBehaviour
         followOffset.y = Mathf.Clamp(followOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET); 
         transposer.m_FollowOffset = Vector3.Lerp(transposer.m_FollowOffset, followOffset, zoomSpeed * Time.deltaTime);   
     }
+
+    public float GetCameraHeight() => followOffset.y;
 }

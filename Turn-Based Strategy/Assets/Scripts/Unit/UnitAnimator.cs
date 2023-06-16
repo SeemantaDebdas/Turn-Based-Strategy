@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class UnitAnimator : MonoBehaviour
@@ -16,6 +17,10 @@ public class UnitAnimator : MonoBehaviour
     const string animRun = "Run";
     const string animFiring = "Firing";
     const string swordSlash = "Sword Slash";
+    const string jump = "Jump";
+    const string fall = "Fall";
+
+    const string jumpFallTag = "FloorChange";
 
     readonly float fixedTimeDuration = 0.1f;
 
@@ -26,6 +31,7 @@ public class UnitAnimator : MonoBehaviour
         if(TryGetComponent(out MoveAction moveAction)){
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
+            moveAction.OnStartChangingFloors += MoveAction_OnStartChangingFloors;
         }
 
         if (TryGetComponent(out ShootAction shootAction))
@@ -39,6 +45,7 @@ public class UnitAnimator : MonoBehaviour
 
         EquipRifle();
     }
+
 
 
     private void SwordAction_OnSwordActionStarted()
@@ -64,8 +71,10 @@ public class UnitAnimator : MonoBehaviour
             {
                 PlayAnimation(animAimIdle);
             }
+        }else if(GetNormalizedTime(jumpFallTag) > 1f)
+        {
+            PlayAnimation(animAimIdle);
         }
-        
     }
 
 
@@ -88,6 +97,19 @@ public class UnitAnimator : MonoBehaviour
     {
         PlayAnimation(animRun);
     }
+
+    private void MoveAction_OnStartChangingFloors(GridPosition fromPos, GridPosition toPos)
+    {
+        if (fromPos.floor < toPos.floor)
+        {
+            PlayAnimation(jump);
+        }
+        else
+        {
+            PlayAnimation(fall);
+        }
+    }
+
     private void ShootAction_OnShoot(object sender, Unit targetUnit)
     {
         PlayAnimation(animFiring);
@@ -100,7 +122,9 @@ public class UnitAnimator : MonoBehaviour
 
 
         Vector3 targetPosition = targetUnit.transform.position;
-        targetPosition.y = shootPointTransform.position.y;
+
+        float unitShoulderHeight = 1.7f;
+        targetPosition.y += unitShoulderHeight;
         bullet.Setup(targetPosition);
     }
 
@@ -115,4 +139,24 @@ public class UnitAnimator : MonoBehaviour
         rifle.SetActive(true);
         sword.SetActive(false);
     }
+
+    float GetNormalizedTime(string tag)
+    {
+        AnimatorStateInfo currentStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo nextStateInfo = anim.GetNextAnimatorStateInfo(0);
+
+        if (anim.IsInTransition(0) && nextStateInfo.IsTag(tag))
+        {
+            return nextStateInfo.normalizedTime;
+        }
+        else if (!anim.IsInTransition(0) && currentStateInfo.IsTag(tag))
+        {
+            return currentStateInfo.normalizedTime;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
 }

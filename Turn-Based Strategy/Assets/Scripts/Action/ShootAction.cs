@@ -41,6 +41,7 @@ public class ShootAction : BaseAction
         {
             case ShootActionState.Aiming:
                 Vector3 direction = (targetUnit.GetWorldPosition() - transform.position).normalized;
+                direction.y = 0;
                 RotateTowardsDirection(direction);
 
                 break;
@@ -111,34 +112,38 @@ public class ShootAction : BaseAction
         {
             for (int z = -maxShootRange; z <= maxShootRange; z++)
             {
-                GridPosition offsetGridPosition = new(x, z, 0);
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                for (int floor = -maxShootRange; floor <= maxShootRange; floor++)
+                {
 
-                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
-                    continue;
+                    GridPosition offsetGridPosition = new(x, z, floor);
+                    GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
-                if (!LevelGrid.Instance.HasUnitOnGridPosition(testGridPosition))
-                    continue;
+                    if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition))
+                        continue;
 
-                Unit targetUnit =  LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                    if (!LevelGrid.Instance.HasUnitOnGridPosition(testGridPosition))
+                        continue;
 
-                if (targetUnit.IsEnemy() == unit.IsEnemy())
-                    continue;
+                    Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
 
-                float taxiCabDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (taxiCabDistance > maxShootRange)
-                    continue;
+                    if (targetUnit.IsEnemy() == unit.IsEnemy())
+                        continue;
 
-                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
-                float unitShoulderHeight = 1.7f;
-                Vector3 shootDirection = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                    float taxiCabDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                    if (taxiCabDistance > maxShootRange)
+                        continue;
 
-                if(Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight, shootDirection,
-                                   Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
-                                   obstaclesLayerMask))
-                { continue;}
+                    Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                    float unitShoulderHeight = 1.7f;
+                    Vector3 shootDirection = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
 
-                validGridPositionList.Add(testGridPosition);
+                    if (Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight, shootDirection,
+                                       Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                                       obstaclesLayerMask))
+                    { continue; }
+
+                    validGridPositionList.Add(testGridPosition);
+                }
             }
         }
         return validGridPositionList;
